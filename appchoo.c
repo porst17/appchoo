@@ -66,7 +66,7 @@ int handle_corner(int w, int h, int x, int y, int r2, int c)
 	return r2 > d2;
 }
 
-void handle_events(SDL_Surface *screen, SDL_Rect *rects, char **apps, int num, char corners[4][256], int r2)
+void handle_events(SDL_Surface *screen, SDL_Rect *rects, char **apps, int num, char corners[4][2048], int r2)
 {
 	static int mouse_x = 0;
 	static int mouse_y = 0;
@@ -165,8 +165,8 @@ void init(int argc, char **argv)
 int check_corner(char *out, char *in, char *which)
 {
 	if (in == strstr(in, which)) {
-		strncpy(out, in + 4, 256);
-		out[strnlen(out, 256) - 1] = 0;
+		strncpy(out, in + 4, 2048);
+		out[strnlen(out, 2048) - 1] = 0;
 		return 1;
 	}
 	return 0;
@@ -177,13 +177,13 @@ int main(int argc, char **argv)
 	init(argc, argv);
 	int max = 32;
 	int num = 0;
-	char imgs[max][256];
+	char imgs[max][2048];
 	char *apps[max];
-	char corners[4][256];
+	char corners[4][2048];
 	for (int i = 0; i < 4; i++)
 		*corners[i] = 0;
 
-	while (num < max && fgets(imgs[num], 256, stdin)) {
+	while (num < max && fgets(imgs[num], 2048, stdin)) {
 		if ('#' == *imgs[num])
 			continue;
 		if (check_corner(corners[0], imgs[num], "@NW"))
@@ -194,7 +194,7 @@ int main(int argc, char **argv)
 			continue;
 		if (check_corner(corners[3], imgs[num], "@SE"))
 			continue;
-		imgs[num][strnlen(imgs[num], 256) - 1] = 0;
+		imgs[num][strnlen(imgs[num], 2048) - 1] = 0;
 		char *delim = strchr(imgs[num], ' ');
 		apps[num] = delim + 1;
 		*delim = 0;
