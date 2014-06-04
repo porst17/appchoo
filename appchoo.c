@@ -223,6 +223,8 @@ int main(int argc, char **argv)
 	if (hide_cursor)
 		SDL_SetCursor(empty_cursor());
 
+        SDL_FillRect(screen , NULL , 0xFFFFFF);
+	
 	int num_x = 1;
 	int num_y = 1;
 
