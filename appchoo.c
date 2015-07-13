@@ -71,6 +71,7 @@ void handle_events(SDL_Surface *screen, SDL_Rect *rects, char **apps, int num, c
 	static int mouse_x = 0;
 	static int mouse_y = 0;
 	int button = 0;
+	static uint32_t left_mouse_down = false;
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
@@ -90,10 +91,21 @@ void handle_events(SDL_Surface *screen, SDL_Rect *rects, char **apps, int num, c
 				mouse_x = event.motion.x;
 				mouse_y = event.motion.y;
 				break;
+			case SDL_MOUSEBUTTONDOWN:
+				switch (event.button.button) {
+					case SDL_BUTTON_LEFT:
+						left_mouse_down = true;
+						break;
+					default:
+						break;
+				}
+				break;
 			case SDL_MOUSEBUTTONUP:
 				switch (event.button.button) {
 					case SDL_BUTTON_LEFT:
-						button = 1;
+						if( left_mouse_down )
+							button = 1;
+						left_mouse_down = false;
 						break;
 					default:
 						break;
